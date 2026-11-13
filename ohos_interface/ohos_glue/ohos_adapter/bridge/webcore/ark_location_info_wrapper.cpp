@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 #include "ohos_adapter/bridge/ark_location_info_wrapper.h"
+#include "base/bridge/ark_web_bridge_macros.h"
 
 namespace OHOS::ArkWeb {
 
@@ -61,10 +61,11 @@ int64_t ArkLocationInfoWrapper::GetTimeSinceBoot()
 
 std::vector<std::string> ArkLocationInfoWrapper::GetAdditions()
 {
-    ArkWebStringVector vec = ctocpp_->GetAdditions();
-    std::vector<std::string> result = ArkWebStringVectorStructToClass(vec);
-    ArkWebStringVectorStructRelease(vec);
+    ArkWebStringVector ret = ctocpp_->GetAdditions();
+    auto result = ArkWebStringVectorStructToClass(ret);
+    ArkWebStringVectorStructRelease(ret);
     return result;
 }
+
 
 } // namespace OHOS::ArkWeb

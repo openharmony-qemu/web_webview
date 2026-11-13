@@ -23,10 +23,7 @@ namespace OHOS {
 namespace NWebError {
 class BusinessError {
 public:
-static inline void ThrowError(napi_env env, int32_t err, const std::string& msg)
-{
-    napi_throw_error(env, std::to_string(err).c_str(), msg.c_str());
-}
+static void ThrowError(napi_env env, int32_t err, const std::string& msg);
 
 static napi_value CreateError(napi_env env, int32_t err);
 

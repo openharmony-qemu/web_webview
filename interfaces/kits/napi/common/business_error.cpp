@@ -19,6 +19,25 @@
 
 namespace OHOS {
 namespace NWebError {
+void BusinessError::ThrowError(napi_env env, int32_t err, const std::string& msg)
+{
+    // napi_throw_error's optional code parameter is a string. BusinessError
+    // exposes a numeric code instead; retain a real Error (including stack).
+    napi_value error = nullptr;
+    napi_value message = nullptr;
+    napi_value code = nullptr;
+    napi_value name = nullptr;
+    if (napi_create_string_utf8(env, msg.c_str(), NAPI_AUTO_LENGTH, &message) != napi_ok ||
+        napi_create_error(env, nullptr, message, &error) != napi_ok ||
+        napi_create_int32(env, err, &code) != napi_ok ||
+        napi_set_named_property(env, error, "code", code) != napi_ok ||
+        napi_create_string_utf8(env, "BusinessError", NAPI_AUTO_LENGTH, &name) != napi_ok ||
+        napi_set_named_property(env, error, "name", name) != napi_ok) {
+        return;
+    }
+    napi_throw(env, error);
+}
+
 napi_value BusinessError::CreateError(napi_env env, int32_t err)
 {
     return CreateError(env, err, GetErrMsgByErrCode(err));
@@ -39,12 +58,12 @@ napi_value BusinessError::CreateError(napi_env env, int32_t err, const std::stri
 
 void BusinessError::ThrowErrorByErrcode(napi_env env, int32_t errCode)
 {
-    napi_throw_error(env, std::to_string(errCode).c_str(), GetErrMsgByErrCode(errCode).c_str());
+    ThrowError(env, errCode, GetErrMsgByErrCode(errCode));
 }
 
 void BusinessError::ThrowErrorByErrcode(napi_env env, int32_t errCode, const std::string& errorMsg)
 {
-    napi_throw_error(env, std::to_string(errCode).c_str(), errorMsg.c_str());
+    ThrowError(env, errCode, errorMsg);
 }
 }
 }

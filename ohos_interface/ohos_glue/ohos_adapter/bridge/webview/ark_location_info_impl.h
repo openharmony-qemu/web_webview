@@ -12,44 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 #ifndef ARK_LOCATION_INFO_IMPL_H
 #define ARK_LOCATION_INFO_IMPL_H
-#pragma once
-
-#include "location_adapter.h"
 #include "ohos_adapter/include/ark_location_adapter.h"
+#include "location_adapter.h"
+#include "base/include/ark_web_base_ref_counted.h"
 
 namespace OHOS::ArkWeb {
 
 class ArkLocationInfoImpl : public ArkLocationInfo {
+
 public:
-    explicit ArkLocationInfoImpl(std::shared_ptr<OHOS::NWeb::LocationInfo>);
+    explicit ArkLocationInfoImpl(std::shared_ptr<OHOS::NWeb::LocationInfo> ref);
+    ~ArkLocationInfoImpl() = default;
 
     double GetLatitude() override;
-
     double GetLongitude() override;
-
     double GetAltitude() override;
-
     float GetAccuracy() override;
-
     float GetSpeed() override;
-
     double GetDirection() override;
-
     int64_t GetTimeStamp() override;
-
     int64_t GetTimeSinceBoot() override;
-
     ArkWebStringVector GetAdditions() override;
 
 private:
     std::shared_ptr<OHOS::NWeb::LocationInfo> real_;
-
     IMPLEMENT_REFCOUNTING(ArkLocationInfoImpl);
 };
-
 } // namespace OHOS::ArkWeb
-
-#endif
+#endif // ARK_LOCATION_INFO_IMPL_H

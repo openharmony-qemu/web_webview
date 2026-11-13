@@ -12,42 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 #ifndef ARK_LOCATION_INFO_WRAPPER_H
 #define ARK_LOCATION_INFO_WRAPPER_H
-#pragma once
-
 #include "location_adapter.h"
 #include "ohos_adapter/include/ark_location_adapter.h"
-
+#include "base/include/ark_web_types.h"
 namespace OHOS::ArkWeb {
 
 class ArkLocationInfoWrapper : public OHOS::NWeb::LocationInfo {
 public:
-    explicit ArkLocationInfoWrapper(ArkWebRefPtr<ArkLocationInfo>);
+    explicit ArkLocationInfoWrapper(ArkWebRefPtr<ArkLocationInfo> ref);
+    ~ArkLocationInfoWrapper() = default;
 
     double GetLatitude() override;
-
     double GetLongitude() override;
-
     double GetAltitude() override;
-
     float GetAccuracy() override;
-
     float GetSpeed() override;
-
     double GetDirection() override;
-
     int64_t GetTimeStamp() override;
-
     int64_t GetTimeSinceBoot() override;
-
     std::vector<std::string> GetAdditions() override;
 
 private:
     ArkWebRefPtr<ArkLocationInfo> ctocpp_;
 };
-
 } // namespace OHOS::ArkWeb
-
 #endif // ARK_LOCATION_INFO_WRAPPER_H
